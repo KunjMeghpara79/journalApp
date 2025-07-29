@@ -24,6 +24,7 @@ public class users {
     @NonNull
     private String password;
     @DBRef//reference for the user for the journal entries that user have created
+    @Builder.Default
     private List<JournalEntry> entries = new ArrayList<>();
 
     private List<String> roles;

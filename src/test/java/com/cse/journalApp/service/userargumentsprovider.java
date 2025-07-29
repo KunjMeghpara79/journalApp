@@ -1,5 +1,3 @@
-package com.cse.journalApp.service;
-
 import com.cse.journalApp.entity.users;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;

@@ -1,5 +1,6 @@
 package com.cse.journalApp.controller;
 
+import com.cse.journalApp.Repositories.Journalentryrepo;
 import com.cse.journalApp.Repositories.userrepo;
 import com.cse.journalApp.entity.users;
 import com.cse.journalApp.service.userservice;
@@ -17,6 +18,10 @@ public class usercontroller {
 
     @Autowired
     private userservice service;
+
+    @Autowired
+    private Journalentryrepo jrepo;
+
 
     @Autowired
     userrepo repo;
@@ -38,9 +43,23 @@ public class usercontroller {
     @DeleteMapping
     public ResponseEntity<?> deleteuser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        users user = service.findbyusername(auth.getName());
+        // Delete all journal entries referenced in the user
+        if (user.getEntries() != null) {
+            user.getEntries().forEach(entry -> {
+                jrepo.deleteById(entry.getId());
+            });
+        }
+
+
         repo.deleteByusername(auth.getName());
         return new ResponseEntity<>("Deleted",HttpStatus.NO_CONTENT);
+    }
 
+    @GetMapping
+    public ResponseEntity<?> greeting(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return new ResponseEntity<>("Hi "+ auth.getName(),HttpStatus.OK);
     }
 
 }
