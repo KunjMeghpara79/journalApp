@@ -1,6 +1,8 @@
 package com.cse.journalApp.service;
 
+import com.cse.journalApp.Appcache;
 import com.cse.journalApp.api.response.quoteresponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,11 +14,16 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class quoteservice {
 
+    @Autowired
+    private  Appcache cache;
+
+
     @Value("${quote.api.key}")
     private  String apikey;
-    private static final String url = "https://api.api-ninjas.com/v1/quotes";
+
 
     public quoteresponse getguote() {
+         String url = cache.appCache.get("quote_api");
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Api-Key", apikey);
 

@@ -1,5 +1,6 @@
 package com.cse.journalApp.controller;
 
+import com.cse.journalApp.Appcache;
 import com.cse.journalApp.entity.users;
 import com.cse.journalApp.service.userservice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,10 @@ public class admincontroller {
 
     @Autowired
     userservice service;
+
+
+    @Autowired
+    private Appcache cache;
     @GetMapping("/all-users")
     public ResponseEntity<?> getallusersb(){
         List<users> list = service.getAll();
@@ -27,5 +32,12 @@ public class admincontroller {
     public ResponseEntity<?> createadminuser(@RequestBody users user){  // this will only work when there will be atleast one admin user because only admin can create new admin.
         service.saveadmin(user);
         return new ResponseEntity<>(user,HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("clear-cache")
+    public  void clearcache(){
+        cache.init();
+
     }
 }
