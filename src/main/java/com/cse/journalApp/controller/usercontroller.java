@@ -2,8 +2,10 @@ package com.cse.journalApp.controller;
 
 import com.cse.journalApp.Repositories.Journalentryrepo;
 import com.cse.journalApp.Repositories.userrepo;
+import com.cse.journalApp.api.response.weatherresponse;
 import com.cse.journalApp.entity.users;
 import com.cse.journalApp.service.userservice;
+import com.cse.journalApp.service.weatherservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +24,11 @@ public class usercontroller {
     @Autowired
     private Journalentryrepo jrepo;
 
-
     @Autowired
     userrepo repo;
 
+    @Autowired
+    private weatherservice weatherservice;
 
 
     @PutMapping
@@ -59,7 +62,13 @@ public class usercontroller {
     @GetMapping
     public ResponseEntity<?> greeting(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return new ResponseEntity<>("Hi "+ auth.getName(),HttpStatus.OK);
+        weatherresponse response = weatherservice.getweather("Mumbai");
+        String greeting = "";
+        if(response != null) {
+            greeting = "The Weather feels like " + response.getCurrent().getFeelslike();
+        }
+
+        return new ResponseEntity<>("hii "+ auth.getName() + greeting,HttpStatus.OK);
     }
 
 }

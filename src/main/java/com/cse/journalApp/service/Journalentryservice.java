@@ -6,7 +6,7 @@ import com.cse.journalApp.entity.users;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Component  // The @Component annotation marks this class as a Spring-managed component (bean).
-@Slf4j
+@Service  // The @Component annotation marks this class as a Spring-managed component (bean).
+@Slf4j    // We can use service annotation instead of Component annotation both adds beans but service annotaion tells reader that this class contains buisness logic
 public class Journalentryservice {
 
     @Autowired
