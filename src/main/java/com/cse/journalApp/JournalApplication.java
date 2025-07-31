@@ -23,12 +23,12 @@ public class JournalApplication {
 		return new MongoTransactionManager(dbFactory);    //implementation of PlatfromTransactionManager
 	}
 
-	@Bean
+	@Bean   // from this  annotation we can include bean in our spring ioc container
 	public RestTemplate restTemplate(){
 		return new RestTemplate();
 	}
 // platformtransactionmanager interface is responsible for managing the transactions.
-// and this interface is implemented by mongotransactionmanager  class
+// and this `interface is implemented by mongotransactionmanager  class
 
 
 }

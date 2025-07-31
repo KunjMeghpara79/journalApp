@@ -22,7 +22,7 @@ public class userservice {
 //    private static final Logger logger = LoggerFactory.getLogger(userservice.class);
 //    // it loads the logger from  LoggerFactory utility class from slf4j package
 //    // and slf4j is the abstraction of logback (one of the type of logging frameworks
-//
+
 
 
 
