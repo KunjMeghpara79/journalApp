@@ -8,29 +8,34 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public class userrepoimpl {
 
-
     @Autowired
-    private MongoTemplate mongoTemplate;  //Spring-Data-MongoDB gives functionalitites to interact with mongodb using this class
-
+    private MongoTemplate mongoTemplate;
 
     public List<users> getusersforSA() {
         Query query = new Query();
 
+        // Email must be valid
         Criteria emailCriteria = new Criteria().andOperator(
-                Criteria.where("email").regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,6}$"),
                 Criteria.where("email").ne(null),
-                Criteria.where("email").ne("")
+                Criteria.where("email").ne(""),
+                Criteria.where("email").regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")
         );
 
+        // Role must be exactly ["USER"]
+        Criteria exactRoleCriteria = Criteria.where("roles").is(List.of("USER"));
+
+        // Sentiment analysis must be enabled
+        Criteria sentimentCriteria = Criteria.where("sentimentanalysis").is(true);
+
+        // Add to query
         query.addCriteria(emailCriteria);
-        query.addCriteria(Criteria.where("sentimentanalysis").is(true));
+        query.addCriteria(exactRoleCriteria);
+        query.addCriteria(sentimentCriteria);
 
-        List<users> list = mongoTemplate.find(query, users.class);
-        System.out.println(list);
-        return list;
+        return mongoTemplate.find(query, users.class);
     }
-
 }
