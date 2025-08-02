@@ -6,6 +6,7 @@ import com.cse.journalApp.api.response.weatherresponse;
 import com.cse.journalApp.entity.users;
 import com.cse.journalApp.service.userservice;
 import com.cse.journalApp.service.weatherservice;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +61,7 @@ public class usercontroller {
     }
 
     @GetMapping
-    public ResponseEntity<?> greeting(){
+    public ResponseEntity<?> greeting() throws JsonProcessingException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         weatherresponse response = weatherservice.getweather("Mumbai");
         String greeting = "";
@@ -68,7 +69,7 @@ public class usercontroller {
             greeting = "The Weather feels like " + response.getCurrent().getFeelslike();
         }
 
-        return new ResponseEntity<>("hii "+ auth.getName() + greeting,HttpStatus.OK);
+        return new ResponseEntity<>("hii "+ auth.getName()+" " + greeting,HttpStatus.OK);
     }
 
 }
